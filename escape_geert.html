@@ -698,10 +698,6 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
         document.forms["room"].answer.value = "";
         document.getElementById("door_moving").style.display = "none";
         document.getElementById("door").style.display = "block";
-        //door = new freezeframe('#door');
-        //door.capture();
-        //door.setup();
-        //door.release();
         document.forms["room"].answer.disabled = false;
         document.forms["room"].button.disabled = false;
         if (data["tries"] == 0) {
@@ -712,18 +708,28 @@ d[k>>>24]^e[n>>>16&255]^j[g>>>8&255]^l[h&255]^c[p++],n=d[n>>>24]^e[g>>>16&255]^j
           document.getElementById("status").innerHTML = "Antwoord is verkeerd! <br/> U moet 5min wachten vooraleer opnieuw te proberen.";
           document.forms["room"].answer.disabled = true;
           document.forms["room"].button.disabled = true;
-          window.setTimeout(function() {
+          setTimer(function() {
             document.forms["room"].answer.disabled = true;
             document.forms["room"].button.disabled = true;
             data["tries"] = 0
             setData(data);
             refreshScreen();
-          }, 5*60*1000);
+          }, 25*1000);
         }
       } else {
         document.getElementById("install").style.display = "block";
         document.getElementById("room").style.display = "none";
       }
+    }
+
+    function setTimer(func, time) {
+        var timeout = new Date()*1 + time;
+        var interval = window.setInterval(function () {
+            if (new Date()*1 > timeout) {
+                window.clearTimeout(interval);
+                func();
+            }
+        }, 1000);
     }
 
     function check(form) {
