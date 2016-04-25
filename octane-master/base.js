@@ -299,6 +299,7 @@ BenchmarkSuite.prototype.RunSingleBenchmark = function(benchmark, data) {
   function Measure(data) {
     var elapsed = 0;
     var start = new Date();
+    var between = start;
   
   // Run either for 1 second or for the number of iterations specified
   // by minIterations, depending on the config flag doDeterministic.
@@ -306,6 +307,8 @@ BenchmarkSuite.prototype.RunSingleBenchmark = function(benchmark, data) {
       i<benchmark.deterministicIterations : elapsed < 1000); i++) {
       benchmark.run();
       elapsed = new Date() - start;
+      console.log(new Date() - between);
+      between = new Date();
     }
     if (data != null) {
       data.runs += i;
